@@ -25,48 +25,24 @@ Pilha* iniciar(void)
     return nova_pilha;
 }
 
-No* inserir(No *tp, int valor)
+No* inserir(No *topo, int valor)
 {
     No* novo_no = (No*) malloc(sizeof(No));
     novo_no->dado = valor;
-    novo_no->proximo = tp;
+    novo_no->proximo = topo;
     return novo_no;
 }
 
-void excluir(Pilha *p, int valor)
+void excluir(Pilha *p)
 {
     No *aux = p->topo;
-    No *anterior = NULL;
-    while (aux != NULL)
+    if (p->topo == NULL)
     {
-        if (aux->dado == valor)
-        {
-            break;
-        }
-        else
-        {
-            anterior = aux;
-        }
-
-        aux = aux->proximo;
-    }
-
-    if (aux == NULL)
-    {
-        printf("\nNão foi encontrado nenhum valor %i dentro da pilha.\n", valor);
+        printf("A pilha está vazia.\n");
         return;
     }
-
-    if (anterior == NULL)
-    {
-        p->topo = aux->proximo;
-    }
-    else
-    {
-        anterior->proximo = aux->proximo;
-    }
-
-    printf("\nO dado %i foi excluido com sucesso!\n", aux->dado);
+    p->topo = aux->proximo;
+    printf("O dado %i foi excluido do topo com sucesso!\n", aux->dado);
     free(aux);
 }
 
@@ -170,16 +146,13 @@ int main(int argc, char const *argv[])
                 p->topo = inserir(p->topo, valor);
                 break;
             case 3:
-                printf("Digite o valor a ser excluido: ");
-                scanf("%i", &valor);
-
                 if (p == NULL)
                 {
-                    printf("\nVocê precisa iniciar a pilha antes de excluir um dado.\n");
+                    printf("Você precisa iniciar a pilha antes de excluir um dado.\n");
                     break;
                 }
 
-                excluir(p, valor);
+                excluir(p);
                 break;
             case 4:
                 if (p == NULL)
